@@ -10,5 +10,7 @@ namespace Model.DataAccess.Interface
         long Insert(Material model);
         bool Update(Material model);
         bool Delete(long id);
+
+        bool IdAlreadyExists(long id);
     }
 }

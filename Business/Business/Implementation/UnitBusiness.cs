@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
 using Business.ApiModel;
 using Business.Business.Interface;
+using FluentValidation;
+using Infra.Business;
+using Infra.BusinessRuleSets;
 using Model.DataAccess.Interface;
 using Model.Entity;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Business.Implementation
 {
@@ -11,24 +16,65 @@ namespace Business.Business.Implementation
     {
         private readonly IUnitDataAccess _unitDataAccess;
         private readonly IMapper _mapper;
+        private IValidator<UnitApiModel> _validator;
 
         public UnitBusiness(
             IUnitDataAccess materialDataAccess,
-            IMapper mapper
+            IMapper mapper,
+            IValidator<UnitApiModel> validator
             )
         {
             _unitDataAccess = materialDataAccess;
             _mapper = mapper;
+            _validator = validator;
         }
 
-        public IEnumerable<UnitApiModel> Get() => _mapper.Map<IEnumerable<UnitApiModel>>(_unitDataAccess.Get());
+        public BusinessResponse<IEnumerable<UnitApiModel>> Get() 
+            => BusinessResponse<IEnumerable<UnitApiModel>>
+                .GenerateOk(_mapper.Map<IEnumerable<UnitApiModel>>(_unitDataAccess.Get()));
 
-        public UnitApiModel Get(long id) => _mapper.Map<UnitApiModel>(_unitDataAccess.Get(id));
+        public BusinessResponse<UnitApiModel> Get(long id) 
+            => BusinessResponse<UnitApiModel>
+                .GenerateOk(_mapper.Map<UnitApiModel>(_unitDataAccess.Get(id)));
 
-        public long Insert(UnitApiModel model) => _unitDataAccess.Insert(_mapper.Map<Unit>(model));
+        public BusinessResponse<long> Insert(UnitApiModel model)
+        {
 
-        public bool Update(UnitApiModel model) => _unitDataAccess.Update(_mapper.Map<Unit>(model));
+            var result = _validator.Validate(model, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitRuleSet), UnitRuleSet.Create))));
 
-        public bool Delete(long id) => _unitDataAccess.Delete(id);
+            if (!result.IsValid || result.Errors.Any())
+            {
+                return BusinessResponse<long>.GenerateError(result);
+            }
+
+            return BusinessResponse<long>
+                .GenerateOk(_unitDataAccess.Insert(_mapper.Map<Unit>(model))); 
+        }
+
+        public BusinessResponse<bool> Update(UnitApiModel model)
+        {
+            var result = _validator.Validate(model, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitRuleSet), UnitRuleSet.Update))));
+
+            if (!result.IsValid || result.Errors.Any())
+            {
+                return BusinessResponse<bool>.GenerateError(result);
+            }
+
+            return BusinessResponse<bool>
+                .GenerateOk(_unitDataAccess.Update(_mapper.Map<Unit>(model)));
+        }
+
+        public BusinessResponse<bool> Delete(long id)
+        {
+            var result = _validator.Validate(new UnitApiModel() { Id = id }, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitRuleSet), UnitRuleSet.Delete))));
+
+            if (!result.IsValid || result.Errors.Any())
+            {
+                return BusinessResponse<bool>.GenerateError(result);
+            }
+
+            return BusinessResponse<bool>
+                .GenerateOk(_unitDataAccess.Delete(id));
+        }
     }
 }

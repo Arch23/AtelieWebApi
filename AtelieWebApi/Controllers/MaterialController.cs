@@ -62,9 +62,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            var result = _materialBusiness.Insert(model);
-
-            return result != 0 ? Ok(result) : BadRequest();
+            return Ok(_materialBusiness.Insert(model));
         }
 
         /// <summary>
@@ -80,9 +78,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            var result = _materialBusiness.Update(model);
-
-            return result ? Ok(result) : BadRequest();
+            return Ok(_materialBusiness.Update(model));
         }
 
         /// <summary>
@@ -98,9 +94,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            var result = _materialBusiness.Delete(id.Value);
-
-            return result ? Ok(result) : NotFound();
+            return Ok(_materialBusiness.Delete(id.Value));
         }
     }
 }

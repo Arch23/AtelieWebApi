@@ -1,8 +1,10 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using Dapper;
+using Dapper.Contrib.Extensions;
 using Infra.Database.Interface;
 using Model.DataAccess.Interface;
 using Model.Entity;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Model.DataAccess.Implementation
 {
@@ -52,6 +54,30 @@ namespace Model.DataAccess.Implementation
             conn.Open();
 
             return conn.Delete<Unit>(new Unit() { Id = id });
+        }
+
+        public bool TitleAlreadyExists(string title)
+        {
+            using var conn = _connection.GetConnection();
+            conn.Open();
+
+            return conn.Query("SELECT 1 FROM TB_DOMAIN_UNITS U WHERE U.Title = @Title", new { Title = title }).Any();
+        }
+
+        public bool IdAlreadyExists(long id)
+        {
+            using var conn = _connection.GetConnection();
+            conn.Open();
+
+            return conn.Query("SELECT 1 FROM TB_DOMAIN_UNITS U WHERE U.Id = @Id", new { Id = id }).Any();
+        }
+
+        public bool AbbreviationAlreadyExists(string abbreviation)
+        {
+            using var conn = _connection.GetConnection();
+            conn.Open();
+
+            return conn.Query("SELECT 1 FROM TB_DOMAIN_UNITS U WHERE U.Abbreviation = @Abbreviation", new { Abbreviation = abbreviation }).Any();
         }
     }
 }

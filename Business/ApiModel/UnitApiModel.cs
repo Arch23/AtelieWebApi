@@ -10,7 +10,7 @@ namespace Business.ApiModel
         public string Title { get; set; }
         public string Abbreviation { get; set; }
         public long IdGroup { get; set; }
-        public long ReferenceUnit { get; set; }
+        public long? ReferenceUnit { get; set; }
         public decimal ReferenceValue { get; set; }
     }
 }

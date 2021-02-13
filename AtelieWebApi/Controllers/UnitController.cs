@@ -64,9 +64,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            var result = _unitBusinessAggregator.InsertUnit(model);
-
-            return result != 0 ? Ok(result) : BadRequest();
+            return Ok(_unitBusinessAggregator.InsertUnit(model));
         }
 
         /// <summary>
@@ -83,9 +81,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            var result = _unitBusinessAggregator.UpdateUnit(model);
-
-            return result ? Ok(result) : BadRequest();
+            return Ok(_unitBusinessAggregator.UpdateUnit(model));
         }
 
         /// <summary>
@@ -102,9 +98,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            var result = _unitBusinessAggregator.DeleteUnit(id.Value);
-
-            return result ? Ok(result) : NotFound();
+            return Ok(_unitBusinessAggregator.DeleteUnit(id.Value));
         }
 
 
@@ -151,9 +145,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            var result = _unitBusinessAggregator.InsertUnitGroup(model);
-
-            return result != 0 ? Ok(result) : BadRequest();
+            return Ok(_unitBusinessAggregator.InsertUnitGroup(model));
         }
 
         /// <summary>
@@ -170,9 +162,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            var result = _unitBusinessAggregator.UpdateUnitGroup(model);
-
-            return result ? Ok(result) : BadRequest();
+            return Ok(_unitBusinessAggregator.UpdateUnitGroup(model));
         }
 
         /// <summary>
@@ -189,9 +179,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            var result = _unitBusinessAggregator.DeleteUnitGroup(id.Value);
-
-            return result ? Ok(result) : NotFound();
+            return Ok(_unitBusinessAggregator.DeleteUnitGroup(id.Value));
         }
     }
 }

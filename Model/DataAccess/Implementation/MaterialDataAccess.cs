@@ -3,6 +3,8 @@ using Dapper.Contrib.Extensions;
 using Infra.Database.Interface;
 using Model.DataAccess.Interface;
 using System.Collections.Generic;
+using Dapper;
+using System.Linq;
 
 namespace Model.DataAccess.Implementation
 {
@@ -52,6 +54,13 @@ namespace Model.DataAccess.Implementation
             conn.Open();
 
             return conn.Delete<Material>(new Material() { Id = id });
+        }
+        public bool IdAlreadyExists(long id)
+        {
+            using var conn = _connection.GetConnection();
+            conn.Open();
+
+            return conn.Query("SELECT 1 FROM TB_MATERIALS M WHERE M.Id = @Id", new { Id = id }).Any();
         }
     }
 }

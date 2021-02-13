@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtelieWebApi", "AtelieWebApi\AtelieWebApi.csproj", "{CF377C28-7BB8-458A-A1A1-6E31D21F2AC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtelieWebApi", "AtelieWebApi\AtelieWebApi.csproj", "{CF377C28-7BB8-458A-A1A1-6E31D21F2AC0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{05E4F187-8FF3-4300-81B1-6F418852B785} = {05E4F187-8FF3-4300-81B1-6F418852B785}
 		{F136228C-E0B9-49DA-9763-4EF757E76CAE} = {F136228C-E0B9-49DA-9763-4EF757E76CAE}
