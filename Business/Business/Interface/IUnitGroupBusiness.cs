@@ -1,14 +1,15 @@
 ﻿using Business.ApiModel;
+using Infra.Business;
 using System.Collections.Generic;
 
 namespace Business.Business.Interface
 {
     public interface IUnitGroupBusiness
     {
-        IEnumerable<UnitGroupApiModel> Get();
-        UnitGroupApiModel Get(long id);
-        long Insert(UnitGroupApiModel model);
-        bool Update(UnitGroupApiModel model);
-        bool Delete(long id);
+        BusinessResponse<IEnumerable<UnitGroupApiModel>> Get();
+        BusinessResponse<UnitGroupApiModel> Get(long id);
+        BusinessResponse<long> Insert(UnitGroupApiModel model);
+        BusinessResponse<bool> Update(UnitGroupApiModel model);
+        BusinessResponse<bool> Delete(long id);
     }
 }

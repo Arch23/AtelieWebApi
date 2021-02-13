@@ -1,7 +1,6 @@
 ﻿using Business.ApiModel;
-using System;
+using Infra.Business;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Business.BusinessAggregator.Interface
 {
@@ -13,10 +12,10 @@ namespace Business.BusinessAggregator.Interface
         bool UpdateUnit(UnitApiModel model);
         bool DeleteUnit(long id);
 
-        IEnumerable<UnitGroupApiModel> GetUnitGroups();
-        UnitGroupApiModel GetUnitGroup(long id);
-        long InsertUnitGroup(UnitGroupApiModel model);
-        bool UpdateUnitGroup(UnitGroupApiModel model);
-        bool DeleteUnitGroup(long id);
+        BusinessResponse<IEnumerable<UnitGroupApiModel>> GetUnitGroups();
+        BusinessResponse<UnitGroupApiModel> GetUnitGroup(long id);
+        BusinessResponse<long> InsertUnitGroup(UnitGroupApiModel model);
+        BusinessResponse<bool> UpdateUnitGroup(UnitGroupApiModel model);
+        BusinessResponse<bool> DeleteUnitGroup(long id);
     }
 }

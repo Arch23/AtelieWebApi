@@ -10,5 +10,7 @@ namespace Model.DataAccess.Interface
         long Insert(UnitGroup model);
         bool Update(UnitGroup model);
         bool Delete(long id);
+
+        bool TitleAlreadyExists(string title);
     }
 }
