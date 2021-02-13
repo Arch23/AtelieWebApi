@@ -12,5 +12,6 @@ namespace Model.DataAccess.Interface
         bool Delete(long id);
 
         bool TitleAlreadyExists(string title);
+        bool IdAlreadyExists(long id);
     }
 }

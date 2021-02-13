@@ -11,6 +11,8 @@ namespace IoC.Implementation
         public static void Register(IServiceCollection services)
         {
             services.AddTransient<IValidator<UnitGroupApiModel>, UnitGroupValidation>();
+            services.AddTransient<IValidator<MaterialApiModel>, MaterialValidation>();
+            services.AddTransient<IValidator<UnitApiModel>, UnitValidation>();
         }
     }
 }

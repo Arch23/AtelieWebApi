@@ -3,8 +3,10 @@ using Business.ApiModel;
 using Business.Business.Interface;
 using FluentValidation;
 using Infra.Business;
+using Infra.BusinessRuleSets;
 using Model.DataAccess.Interface;
 using Model.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -37,7 +39,7 @@ namespace Business.Business.Implementation
 
         public BusinessResponse<long> Insert(UnitGroupApiModel model) {
 
-            var result = _validator.Validate(model);
+            var result = _validator.Validate(model, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitGroupRuleSet), UnitGroupRuleSet.Create))));
 
             if (!result.IsValid || result.Errors.Any())
             {
@@ -49,7 +51,7 @@ namespace Business.Business.Implementation
         }
 
         public BusinessResponse<bool> Update(UnitGroupApiModel model) {
-            var result = _validator.Validate(model);
+            var result = _validator.Validate(model, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitGroupRuleSet), UnitGroupRuleSet.Update))));
 
             if (!result.IsValid || result.Errors.Any())
             {
@@ -60,8 +62,16 @@ namespace Business.Business.Implementation
                 .GenerateOk(_unitGroupDataAccess.Update(_mapper.Map<UnitGroup>(model)));
         }
 
-        public BusinessResponse<bool> Delete(long id) 
-            => BusinessResponse<bool>
+        public BusinessResponse<bool> Delete(long id) {
+            var result = _validator.Validate(new UnitGroupApiModel() { Id = id }, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitGroupRuleSet), UnitGroupRuleSet.Delete))));
+
+            if (!result.IsValid || result.Errors.Any())
+            {
+                return BusinessResponse<bool>.GenerateError(result);
+            }
+
+            return BusinessResponse<bool>
                 .GenerateOk(_unitGroupDataAccess.Delete(id));
+        }
     }
 }

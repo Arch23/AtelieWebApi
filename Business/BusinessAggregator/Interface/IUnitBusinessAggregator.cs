@@ -6,11 +6,11 @@ namespace Business.BusinessAggregator.Interface
 {
     public interface IUnitBusinessAggregator
     {
-        IEnumerable<UnitApiModel> GetUnits();
-        UnitApiModel GetUnit(long id);
-        long InsertUnit(UnitApiModel model);
-        bool UpdateUnit(UnitApiModel model);
-        bool DeleteUnit(long id);
+        BusinessResponse<IEnumerable<UnitApiModel>> GetUnits();
+        BusinessResponse<UnitApiModel> GetUnit(long id);
+        BusinessResponse<long> InsertUnit(UnitApiModel model);
+        BusinessResponse<bool> UpdateUnit(UnitApiModel model);
+        BusinessResponse<bool> DeleteUnit(long id);
 
         BusinessResponse<IEnumerable<UnitGroupApiModel>> GetUnitGroups();
         BusinessResponse<UnitGroupApiModel> GetUnitGroup(long id);

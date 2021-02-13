@@ -1,14 +1,15 @@
 ﻿using Business.ApiModel;
+using Infra.Business;
 using System.Collections.Generic;
 
 namespace Business.Business.Interface
 {
     public interface IMaterialBusiness
     {
-        IEnumerable<MaterialApiModel> Get();
-        MaterialApiModel Get(long id);
-        long Insert(MaterialApiModel model);
-        bool Update(MaterialApiModel model);
-        bool Delete(long id);
+        BusinessResponse<IEnumerable<MaterialApiModel>> Get();
+        BusinessResponse<MaterialApiModel> Get(long id);
+        BusinessResponse<long> Insert(MaterialApiModel model);
+        BusinessResponse<bool> Update(MaterialApiModel model);
+        BusinessResponse<bool> Delete(long id);
     }
 }

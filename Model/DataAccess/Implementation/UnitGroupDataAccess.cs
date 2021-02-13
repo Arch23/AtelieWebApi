@@ -63,5 +63,13 @@ namespace Model.DataAccess.Implementation
 
             return conn.Query("SELECT 1 FROM TB_DOMAIN_UNITS_GROUP UG WHERE UG.Title = @Title", new { Title = title }).Any();
         }
+
+        public bool IdAlreadyExists(long id)
+        {
+            using var conn = _connection.GetConnection();
+            conn.Open();
+
+            return conn.Query("SELECT 1 FROM TB_DOMAIN_UNITS_GROUP UG WHERE UG.Id = @Id", new { Id = id }).Any();
+        }
     }
 }

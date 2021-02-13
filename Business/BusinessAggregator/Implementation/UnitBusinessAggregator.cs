@@ -20,11 +20,11 @@ namespace Business.BusinessAggregator.Implementation
             _unitGroupBusiness = unitGroupBusiness;
         }
 
-        public IEnumerable<UnitApiModel> GetUnits() => _unitBusiness.Get();
-        public UnitApiModel GetUnit(long id) => _unitBusiness.Get(id);
-        public long InsertUnit(UnitApiModel model) => _unitBusiness.Insert(model);
-        public bool UpdateUnit(UnitApiModel model) => _unitBusiness.Update(model);
-        public bool DeleteUnit(long id) => _unitBusiness.Delete(id);
+        public BusinessResponse<IEnumerable<UnitApiModel>> GetUnits() => _unitBusiness.Get();
+        public BusinessResponse<UnitApiModel> GetUnit(long id) => _unitBusiness.Get(id);
+        public BusinessResponse<long> InsertUnit(UnitApiModel model) => _unitBusiness.Insert(model);
+        public BusinessResponse<bool> UpdateUnit(UnitApiModel model) => _unitBusiness.Update(model);
+        public BusinessResponse<bool> DeleteUnit(long id) => _unitBusiness.Delete(id);
 
         public BusinessResponse<IEnumerable<UnitGroupApiModel>> GetUnitGroups() => _unitGroupBusiness.Get();
         public BusinessResponse<UnitGroupApiModel> GetUnitGroup(long id) => _unitGroupBusiness.Get(id);
