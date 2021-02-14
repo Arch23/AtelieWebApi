@@ -53,7 +53,6 @@ namespace Business.Validator
                     When(unit => unit.ReferenceUnit.HasValue && unit.ReferenceUnit.Value != 0, () =>
                     {
                         RuleFor(unit => unit.ReferenceUnit.Value).Must(IdAlreadyExists).WithMessage($"{ReferenceUnitName} do {entityName} não existe");
-
                         RuleFor(unit => unit.ReferenceValue).GreaterThan(0).WithMessage($"{ReferenceValueName} do {entityName} tem que ser maior que zero");
                     }).Otherwise(() => 
                     {

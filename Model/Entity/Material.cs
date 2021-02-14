@@ -9,7 +9,7 @@ namespace Model.Entity
         [Key]
         public long Id { get; set; }
         public string Name { get; set; }
-        public string Brand { get; set; }
+        public long? IdBrand { get; set; }
         public decimal Price { get; set; }
         public decimal Quantity { get; set; }
         public long IdUnit { get; set; }

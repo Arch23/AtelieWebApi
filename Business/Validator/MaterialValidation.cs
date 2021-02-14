@@ -19,9 +19,7 @@ namespace Business.Validator
         private const int NameMin = 1;
         private const int NameMax = 255;
 
-        private const string BrandName = "marca";
-        private const int BrandMin = 1;
-        private const int BrandMax = 255;
+        private const string IdBrand = "marca";
 
         private const string PriceName = "preço";
 
@@ -35,24 +33,26 @@ namespace Business.Validator
 
         private readonly IUnitDataAccess _unitDataAccess;
         private readonly IMaterialDataAccess _materialDataAccess;
+        private readonly IBrandDataAccess _brandDataAccess;
 
         public MaterialValidation(
             IUnitDataAccess unitDataAccess,
-            IMaterialDataAccess materialDataAccess)
+            IMaterialDataAccess materialDataAccess,
+            IBrandDataAccess brandDataAccess)
         {
             _unitDataAccess = unitDataAccess;
             _materialDataAccess = materialDataAccess;
+            _brandDataAccess = brandDataAccess;
 
             RuleSet(ValidationHelper.GetRuleSets(MaterialRuleSet.Create, MaterialRuleSet.Update),
                 () => {
                     RuleFor(material => material.Name).NotNull().NotEmpty().WithMessage($"{NameName} da {entityName} não pode estar vazio");
                     RuleFor(material => material.Name).Length(NameMin, NameMax).WithMessage($"{NameName} da {entityName} precisa ter entre {NameMin} e {NameMax} caracteres");
 
-                    When(material => !string.IsNullOrEmpty(material.Brand), () => 
+                    When(material => material.IdBrand.HasValue && material.IdBrand.Value != 0, () => 
                     {
-                        RuleFor(material => material.Brand).Length(BrandMin, BrandMax).WithMessage($"{BrandName} da {entityName} precisa ter entre {BrandMin} e {BrandMax} caracteres");
+                        RuleFor(material => material.IdBrand.Value).Must(IdBrandAlreadyExists).WithMessage($"{IdBrand} da {entityName} não existe");
                     });
-
 
                     RuleFor(material => material.Price).GreaterThan(0).WithMessage($"{PriceName} da {entityName} precisa ser diferente de zero e positivo");
 
@@ -63,7 +63,7 @@ namespace Business.Validator
 
                     When(material => !string.IsNullOrEmpty(material.Note), () =>
                     {
-                        RuleFor(material => material.Brand).Length(NoteMin, NoteMax).WithMessage($"{NoteName} da {entityName} precisa ter entre {BrandMin} e {BrandMax} caracteres");
+                        RuleFor(material => material.Note).Length(NoteMin, NoteMax).WithMessage($"{NoteName} da {entityName} precisa ter entre {NoteMin} e {NoteMax} caracteres");
                     });
                 });
 
@@ -76,5 +76,6 @@ namespace Business.Validator
 
         private bool IdAlreadyExists(long id) => _materialDataAccess.IdAlreadyExists(id);
         private bool IdUnitAlreadyExists(long id) => _unitDataAccess.IdAlreadyExists(id);
+        private bool IdBrandAlreadyExists(long id) => _brandDataAccess.IdAlreadyExists(id);
     }
 }
