@@ -1,8 +1,8 @@
 ﻿using Business.ApiModel;
 using FluentValidation;
 using Infra.BusinessRuleSets;
+using Infra.Helpers;
 using Model.DataAccess.Interface;
-using System;
 
 namespace Business.Validator
 {
@@ -37,9 +37,7 @@ namespace Business.Validator
             _unitDataAccess = unitDataAccess;
             _unitGroupDataAccess = unitGroupDataAccess;
 
-            RuleSet(string.Join(",",
-                Enum.GetName(typeof(UnitRuleSet), UnitRuleSet.Create),
-                Enum.GetName(typeof(UnitRuleSet), UnitRuleSet.Update)),
+            RuleSet(ValidationHelper.GetRuleSets(UnitRuleSet.Create,UnitRuleSet.Update),
                 () => {
                     RuleFor(unit => unit.Title).NotNull().NotEmpty().WithMessage($"{TitleName} do {entityName} não pode estar vazio");
                     RuleFor(unit => unit.Title).Length(TitleMin, TitleMax).WithMessage($"{TitleName} do {entityName} precisa ter entre {TitleMin} e {TitleMax} caracteres");
@@ -63,9 +61,7 @@ namespace Business.Validator
                     });
                 });
 
-            RuleSet(string.Join(",",
-                Enum.GetName(typeof(UnitRuleSet), UnitRuleSet.Delete),
-                Enum.GetName(typeof(UnitRuleSet), UnitRuleSet.Update)),
+            RuleSet(ValidationHelper.GetRuleSets(UnitRuleSet.Delete, UnitRuleSet.Update),
                 () => {
                     RuleFor(unit => unit.Id).GreaterThan(0).WithMessage($"{IdName} do {entityName} não pode estar vazio");
                     RuleFor(unit => unit.Id).Must(IdAlreadyExists).WithMessage($"{IdName} do {entityName} não existe");

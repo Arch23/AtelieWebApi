@@ -4,6 +4,7 @@ using Business.Business.Interface;
 using FluentValidation;
 using Infra.Business;
 using Infra.BusinessRuleSets;
+using Infra.Helpers;
 using Model.DataAccess.Interface;
 using Model.Entity;
 using System;
@@ -39,7 +40,7 @@ namespace Business.Business.Implementation
 
         public BusinessResponse<long> Insert(UnitGroupApiModel model) {
 
-            var result = _validator.Validate(model, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitGroupRuleSet), UnitGroupRuleSet.Create))));
+            var result = _validator.Validate(model, options => options.IncludeRuleSets(ValidationHelper.GetRuleSets(UnitGroupRuleSet.Create)));
 
             if (!result.IsValid || result.Errors.Any())
             {
@@ -51,7 +52,7 @@ namespace Business.Business.Implementation
         }
 
         public BusinessResponse<bool> Update(UnitGroupApiModel model) {
-            var result = _validator.Validate(model, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitGroupRuleSet), UnitGroupRuleSet.Update))));
+            var result = _validator.Validate(model, options => options.IncludeRuleSets(ValidationHelper.GetRuleSets(UnitGroupRuleSet.Update)));
 
             if (!result.IsValid || result.Errors.Any())
             {
@@ -63,7 +64,7 @@ namespace Business.Business.Implementation
         }
 
         public BusinessResponse<bool> Delete(long id) {
-            var result = _validator.Validate(new UnitGroupApiModel() { Id = id }, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitGroupRuleSet), UnitGroupRuleSet.Delete))));
+            var result = _validator.Validate(new UnitGroupApiModel() { Id = id }, options => options.IncludeRuleSets(ValidationHelper.GetRuleSets(UnitGroupRuleSet.Delete)));
 
             if (!result.IsValid || result.Errors.Any())
             {

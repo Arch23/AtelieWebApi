@@ -4,6 +4,7 @@ using Business.Business.Interface;
 using FluentValidation;
 using Infra.Business;
 using Infra.BusinessRuleSets;
+using Infra.Helpers;
 using Model.DataAccess.Interface;
 using Model.Entity;
 using System;
@@ -40,7 +41,7 @@ namespace Business.Business.Implementation
         public BusinessResponse<long> Insert(UnitApiModel model)
         {
 
-            var result = _validator.Validate(model, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitRuleSet), UnitRuleSet.Create))));
+            var result = _validator.Validate(model, options => options.IncludeRuleSets(ValidationHelper.GetRuleSets(UnitRuleSet.Create)));
 
             if (!result.IsValid || result.Errors.Any())
             {
@@ -53,7 +54,7 @@ namespace Business.Business.Implementation
 
         public BusinessResponse<bool> Update(UnitApiModel model)
         {
-            var result = _validator.Validate(model, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitRuleSet), UnitRuleSet.Update))));
+            var result = _validator.Validate(model, options => options.IncludeRuleSets(ValidationHelper.GetRuleSets(UnitRuleSet.Update)));
 
             if (!result.IsValid || result.Errors.Any())
             {
@@ -66,7 +67,7 @@ namespace Business.Business.Implementation
 
         public BusinessResponse<bool> Delete(long id)
         {
-            var result = _validator.Validate(new UnitApiModel() { Id = id }, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(UnitRuleSet), UnitRuleSet.Delete))));
+            var result = _validator.Validate(new UnitApiModel() { Id = id }, options => options.IncludeRuleSets(ValidationHelper.GetRuleSets(UnitRuleSet.Delete)));
 
             if (!result.IsValid || result.Errors.Any())
             {

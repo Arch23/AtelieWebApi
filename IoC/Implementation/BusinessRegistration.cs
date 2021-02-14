@@ -12,6 +12,7 @@ namespace IoC.Implementation
             services.AddSingleton<IMaterialBusiness, MaterialBusiness>();
             services.AddSingleton<IUnitGroupBusiness, UnitGroupBusiness>();
             services.AddSingleton<IUnitBusiness, UnitBusiness>();
+            services.AddSingleton<IBrandBusiness, BrandBusiness>();
         }
     }
 }

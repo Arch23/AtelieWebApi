@@ -12,6 +12,7 @@ namespace IoC.Implementation
             services.AddSingleton<IMaterialDataAccess, MaterialDataAccess>();
             services.AddSingleton<IUnitGroupDataAccess, UnitGroupGroupDataAccess>();
             services.AddSingleton<IUnitDataAccess, UnitDataAccess>();
+            services.AddSingleton<IBrandDataAccess, BrandDataAccess>();
         }
     }
 }

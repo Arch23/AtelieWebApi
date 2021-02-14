@@ -13,6 +13,7 @@ namespace IoC.Implementation
             services.AddTransient<IValidator<UnitGroupApiModel>, UnitGroupValidation>();
             services.AddTransient<IValidator<MaterialApiModel>, MaterialValidation>();
             services.AddTransient<IValidator<UnitApiModel>, UnitValidation>();
+            services.AddTransient<IValidator<BrandApiModel>, BrandValidation>();
         }
     }
 }

@@ -11,6 +11,7 @@ namespace IoC.Implementation.AutoMapper
             CreateMap<Material, MaterialApiModel>();
             CreateMap<Unit, UnitApiModel>();
             CreateMap<UnitGroup, UnitGroupApiModel>();
+            CreateMap<Brand, BrandApiModel>();
         }
     }
 }

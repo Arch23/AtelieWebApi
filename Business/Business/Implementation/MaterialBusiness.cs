@@ -9,6 +9,7 @@ using FluentValidation;
 using System.Linq;
 using System;
 using Infra.BusinessRuleSets;
+using Infra.Helpers;
 
 namespace Business.Business.Implementation
 {
@@ -39,7 +40,7 @@ namespace Business.Business.Implementation
         public BusinessResponse<long> Insert(MaterialApiModel model)
         {
 
-            var result = _validator.Validate(model, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(MaterialRuleSet), MaterialRuleSet.Create))));
+            var result = _validator.Validate(model, options => options.IncludeRuleSets(ValidationHelper.GetRuleSets(MaterialRuleSet.Create)));
 
             if (!result.IsValid || result.Errors.Any())
             {
@@ -53,7 +54,7 @@ namespace Business.Business.Implementation
         public BusinessResponse<bool> Update(MaterialApiModel model)
         {
 
-            var result = _validator.Validate(model, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(MaterialRuleSet), MaterialRuleSet.Update))));
+            var result = _validator.Validate(model, options => options.IncludeRuleSets(ValidationHelper.GetRuleSets(MaterialRuleSet.Update)));
 
             if (!result.IsValid || result.Errors.Any())
             {
@@ -67,7 +68,7 @@ namespace Business.Business.Implementation
         public BusinessResponse<bool> Delete(long id)
         {
 
-            var result = _validator.Validate(new MaterialApiModel() { Id = id }, options => options.IncludeRuleSets(string.Join(",", Enum.GetName(typeof(MaterialRuleSet), MaterialRuleSet.Delete))));
+            var result = _validator.Validate(new MaterialApiModel() { Id = id }, options => options.IncludeRuleSets(ValidationHelper.GetRuleSets(MaterialRuleSet.Delete)));
 
             if (!result.IsValid || result.Errors.Any())
             {
