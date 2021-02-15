@@ -29,7 +29,6 @@ namespace AtelieWebApi
 
             DataAccessRegistration.Register(services);
             BusinessRegistration.Register(services);
-            BusinessAggregatorRegistration.Register(services);
             InfraRegistration.Register(services);
             AutoMapperRegistration.Register(services);
             ValidationRegistration.Register(services);

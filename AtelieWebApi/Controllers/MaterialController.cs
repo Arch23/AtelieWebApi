@@ -27,7 +27,6 @@ namespace AtelieWebApi.Controllers
         /// </summary>
         /// <returns>The materials</returns>
         [HttpGet]
-        [Route("Get")]
         public IActionResult Get() => Ok(_materialBusiness.Get());
 
         /// <summary>
@@ -35,8 +34,7 @@ namespace AtelieWebApi.Controllers
         /// </summary>
         /// <param name="model">The id of the material</param>
         /// <returns>The material</returns>
-        [HttpGet]
-        [Route("GetById/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetById([FromRoute] long? id) { 
 
             if(!id.HasValue || id.Value == 0)
@@ -55,7 +53,6 @@ namespace AtelieWebApi.Controllers
         /// <param name="model">The api model of the material</param>
         /// <returns>The Id of the new Material</returns>
         [HttpPost]
-        [Route("Create")]
         public IActionResult Create([FromBody] MaterialApiModel model) { 
             if (model == null)
             {
@@ -71,7 +68,6 @@ namespace AtelieWebApi.Controllers
         /// <param name="model">The api model of the material</param>
         /// <returns>True if the update was successful</returns>
         [HttpPut]
-        [Route("Update")]
         public IActionResult Update([FromBody] MaterialApiModel model) {
             if (model == null)
             {
@@ -87,7 +83,7 @@ namespace AtelieWebApi.Controllers
         /// <param name="model">The id of the material</param>
         /// <returns>True if the delete was successful</returns>
         [HttpDelete]
-        [Route("Delete/{id}")]
+        [Route("{id}")]
         public IActionResult Delete([FromRoute] long? id) {
             if (!id.HasValue || id.Value == 0)
             {

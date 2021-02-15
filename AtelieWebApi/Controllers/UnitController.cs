@@ -1,6 +1,5 @@
 ﻿using Business.ApiModel;
 using Business.Business.Interface;
-using Business.BusinessAggregator.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -10,16 +9,16 @@ namespace AtelieWebApi.Controllers
     [Route("[controller]")]
     public class UnitController : ControllerBase
     {
-        private readonly IUnitBusinessAggregator _unitBusinessAggregator;
+        private readonly IUnitBusiness _unitBusiness;
         private readonly ILogger<MaterialController> _logger;
 
         public UnitController(
             ILogger<MaterialController> logger,
-            IUnitBusinessAggregator unitBusinessAggregator
+            IUnitBusiness unitBusiness
             )
         {
             _logger = logger;
-            _unitBusinessAggregator = unitBusinessAggregator;
+            _unitBusiness = unitBusiness;
         }
 
         /// <summary>
@@ -27,17 +26,15 @@ namespace AtelieWebApi.Controllers
         /// </summary>
         /// <returns>The units</returns>
         [HttpGet]
-        [Route("GetUnits")]
-        public IActionResult GetUnits() => Ok(_unitBusinessAggregator.GetUnits());
+        public IActionResult Get() => Ok(_unitBusiness.Get());
 
         /// <summary>
         /// Gets the unit by Id
         /// </summary>
         /// <param name="model">The id of the unit</param>
         /// <returns>The unit</returns>
-        [HttpGet]
-        [Route("GetUnitById/{id}")]
-        public IActionResult GetUnitById([FromRoute] long? id)
+        [HttpGet("{id}")]
+        public IActionResult GetById([FromRoute] long? id)
         {
 
             if (!id.HasValue || id.Value == 0)
@@ -45,7 +42,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            var result = _unitBusinessAggregator.GetUnit(id.Value);
+            var result = _unitBusiness.Get(id.Value);
 
             return result != null ? Ok(result) : NotFound();
         }
@@ -56,15 +53,14 @@ namespace AtelieWebApi.Controllers
         /// <param name="model">The api model of the unit</param>
         /// <returns>The Id of the new unit</returns>
         [HttpPost]
-        [Route("CreateUnit")]
-        public IActionResult CreateUnit([FromBody] UnitApiModel model)
+        public IActionResult Create([FromBody] UnitApiModel model)
         {
             if (model == null)
             {
                 return BadRequest();
             }
 
-            return Ok(_unitBusinessAggregator.InsertUnit(model));
+            return Ok(_unitBusiness.Insert(model));
         }
 
         /// <summary>
@@ -73,7 +69,6 @@ namespace AtelieWebApi.Controllers
         /// <param name="model">The api model of the unit</param>
         /// <returns>True if the update was successful</returns>
         [HttpPut]
-        [Route("UpdateUnit")]
         public IActionResult UpdateUnit([FromBody] UnitApiModel model)
         {
             if (model == null)
@@ -81,7 +76,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            return Ok(_unitBusinessAggregator.UpdateUnit(model));
+            return Ok(_unitBusiness.Update(model));
         }
 
         /// <summary>
@@ -89,8 +84,7 @@ namespace AtelieWebApi.Controllers
         /// </summary>
         /// <param name="model">The id of the unit</param>
         /// <returns>True if the delete was successful</returns>
-        [HttpDelete]
-        [Route("DeleteUnit/{id}")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteUnit([FromRoute] long? id)
         {
             if (!id.HasValue || id.Value == 0)
@@ -98,88 +92,7 @@ namespace AtelieWebApi.Controllers
                 return BadRequest();
             }
 
-            return Ok(_unitBusinessAggregator.DeleteUnit(id.Value));
-        }
-
-
-
-        /// <summary>
-        /// Gets all the unit groups
-        /// </summary>
-        /// <returns>The unit groups</returns>
-        [HttpGet]
-        [Route("GetUnitGroups")]
-        public IActionResult GetUnitGroups() => Ok(_unitBusinessAggregator.GetUnitGroups());
-
-        /// <summary>
-        /// Gets the unit group by Id
-        /// </summary>
-        /// <param name="model">The id of the unit group</param>
-        /// <returns>The unit group</returns>
-        [HttpGet]
-        [Route("GetUnitGroupById/{id}")]
-        public IActionResult GetUnitGroupById([FromRoute] long? id)
-        {
-
-            if (!id.HasValue || id.Value == 0)
-            {
-                return BadRequest();
-            }
-
-            var result = _unitBusinessAggregator.GetUnitGroup(id.Value);
-
-            return result != null ? Ok(result) : NotFound();
-        }
-
-        /// <summary>
-        /// Create a new unit group
-        /// </summary>
-        /// <param name="model">The api model of the unit group</param>
-        /// <returns>The Id of the new unit group</returns>
-        [HttpPost]
-        [Route("CreateUnitGroup")]
-        public IActionResult CreateUnitGroup([FromBody] UnitGroupApiModel model)
-        {
-            if (model == null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(_unitBusinessAggregator.InsertUnitGroup(model));
-        }
-
-        /// <summary>
-        /// Updates the unit group
-        /// </summary>
-        /// <param name="model">The api model of the unit group</param>
-        /// <returns>True if the update was successful</returns>
-        [HttpPut]
-        [Route("UpdateUnitGroup")]
-        public IActionResult UpdateUnitGroup([FromBody] UnitGroupApiModel model)
-        {
-            if (model == null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(_unitBusinessAggregator.UpdateUnitGroup(model));
-        }
-
-        /// <summary>
-        /// Deletes the unit group
-        /// </summary>
-        /// <param name="model">The id of the unit group</param>
-        /// <returns>True if the delete was successful</returns>
-        [HttpDelete]
-        [Route("DeleteUnitGroup/{id}")]
-        public IActionResult DeleteUnitGroup([FromRoute] long? id)
-        {
-            if (!id.HasValue || id.Value == 0)
-            {
-                return BadRequest();
-            }
-
-            return Ok(_unitBusinessAggregator.DeleteUnitGroup(id.Value));
+            return Ok(_unitBusiness.Delete(id.Value));
         }
     }
 }
